@@ -1,4 +1,7 @@
 module.exports = {
+
+    //PART 1_______________________________________
+
     read_file: function(text_path){
         var fs = require("fs");
         var text = fs.readFileSync(text_path).toString('utf-8');
@@ -78,5 +81,62 @@ module.exports = {
 
         //return the solution
         return solution_part_1;
+    },
+
+    //PART 2_______________________________________
+    
+    add_special_char: function(array, index){
+        var temp = array.slice(0);
+        temp[index] = '*';
+        return temp;
+    },
+
+   concat_without_special_char: function(array) {
+        var sol = '';
+        array.forEach(function(char){
+            if (!(char == '*')) {
+                sol += char;
+            }
+        });
+        return sol;
+    },
+
+    check_solution_obj: function(array, sol_obj){
+        if (sol_obj[array]) {
+            return true;
+        } else {
+            sol_obj[array] = 1;
+            return false;
+        }
+    },
+
+    solution_part_2: function(text_path){
+        //read file
+        let array_of_input_value = this.read_file(text_path);
+        let array_of_char_strings = [];
+        var solution;
+        
+        //build solution from this solution_object
+        let solution_object = {};
+
+        for (var i = 0; i < array_of_input_value.length; i++) {
+            var temp = this.string_to_char_array(array_of_input_value[i]);
+            array_of_char_strings.push(temp);
+        }
+
+        //Convert each array of chars to include a special char for each of the index.
+        for (var i = 0; i < array_of_char_strings[0].length; i++) {
+            for(var j = 0; j < array_of_char_strings.length; j++) {
+                var special_char_array = this.add_special_char(array_of_char_strings[j], i);
+                //check to see if this property already exists in the solution object
+                if (this.check_solution_obj(special_char_array, solution_object)){
+                    //if  it does, this will store the concatenated letters without the special char that two string inputs share.
+                    solution = this.concat_without_special_char(special_char_array);
+                }
+            }
+        }
+
+        // return the solution
+        return solution;
     }
 };

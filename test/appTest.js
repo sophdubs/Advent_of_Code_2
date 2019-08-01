@@ -108,5 +108,58 @@ describe('App', function(){
 
 
     describe('Part 2', function(){
+        
+        describe('add_special_char(array, index)', function(){
+            let array = ['h', 'e', 'l', 'l', 'o'];
+            let index = 1;
+            let result = app.add_special_char(array, index);
+            it('sould copy the array and replace the char string at a given index within an array with a special char', function(){
+                assert.equal(result[index], '*');
+                assert.typeOf(result, 'array');
+            });
+        });
+
+        describe('concat_without_special_char(array)', function(){
+            let result = app.concat_without_special_char(['h','*','l','l','o']);
+            it ('should return a string', function(){
+                assert.typeOf(result, 'string');
+            });
+            it ('the length of the string should be one less tha the length of the input array', function(){
+                assert.equal(result.length, 4);
+            });
+            it ('should include only the non-special characters', function(){
+                assert.equal(result, 'hllo');
+            });
+        });
+
+        describe('check_solution_obj(array, sol_obj)', function(){
+            let sol_obj = {};
+            sol_obj[[1, 2]] = 1;
+            let array = [1, 2];
+            let array2 = [1];
+            let result1 = app.check_solution_obj(array, sol_obj);
+            let result2 = app.check_solution_obj(array2, sol_obj);
+            let result3 = sol_obj[[1]];
+
+            it('should return true if the array already exists as a property of the object', function(){
+                assert.equal(result1, true);
+            });
+            it('should return false if the array does not exist as a property of the object', function(){
+                assert.equal(result2, false);
+            });
+            it ('should update the solution object if the array does not exist as a property of the object', function(){
+                assert.equal(result3, 1);
+            });
+        });
+
+        describe('solution_part_2(text_path)', function(){
+            let result = app.solution_part_2('./puzzle_input.txt');
+            it('should return string', function(){
+                assert.typeOf(result, 'string');
+            });
+            it('should return the correct solution', function(){
+                assert.equal(result, 'revtaubfniyhsgxdoajwkqilp');
+            })
+        });
     });
 });
